@@ -1,0 +1,151 @@
+{
+  "skill_name": "fiscaliste",
+  "evals": [
+    {
+      "id": 1,
+      "name": "ir-celibataire-salaire-simple",
+      "prompt": "Je suis célibataire, sans enfant, mon salaire net imposable (case 1AJ) est de 50 000 €. Pas d'autres revenus. Calcule mon impôt sur le revenu pour les revenus 2025.",
+      "expected_output": "Calcul complet avec abattement 10% (= RNI 45 000 €), application du barème progressif tranche par tranche, décote si applicable, impôt net final. Mention de la checklist à vérifier sur impots.gouv.fr.",
+      "files": [],
+      "assertions": [
+        "Le skill applique l'abattement forfaitaire 10% sur les salaires (RNI = 50 000 × 0.9 = 45 000 €)",
+        "Le barème progressif est appliqué tranche par tranche (0%, 11%, 30%)",
+        "Les tranches utilisées proviennent de data/bareme-ir-2025.json",
+        "L'impôt brut pour 45 000 € avec 1 part est calculé (environ 6 623 €)",
+        "La décote est testée mais non applicable (impôt brut > 1 982 €)",
+        "L'année de référence des données (revenus 2025, déclaration 2026) est mentionnée",
+        "Pas de prélèvements sociaux calculés (pas de revenus du capital)",
+        "Le calcul est structuré étape par étape"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "ir-marie-2-enfants-plafonnement-qf",
+      "prompt": "Je suis marié avec 2 enfants à charge. Nos salaires imposables sont 80 000 € et 60 000 €. Pas d'autres revenus. Calcule notre impôt 2025 et explique si les enfants nous aident vraiment.",
+      "expected_output": "Calcul avec 3 parts (2 + 0,5 + 0,5), abattement 10% sur chaque salaire, application barème, PUIS vérification du plafonnement QF (2 demi-parts × 1 807 € = 3 614 €). Doit comparer impôt avec et sans enfants pour vérifier que le plafond n'est pas dépassé.",
+      "files": [],
+      "assertions": [
+        "Le skill identifie 3 parts fiscales (2 base + 0,5 × 2 enfants)",
+        "L'abattement 10% est appliqué sur chaque salaire séparément",
+        "Le skill calcule l'impôt avec 3 parts ET avec 2 parts pour comparer",
+        "Le plafonnement QF est testé : gain réel vs gain max (2 × 1 807 = 3 614 €)",
+        "Le skill indique si le plafond QF est actif ou non dans ce cas",
+        "La réponse explique que les enfants aident mais que le gain est plafonné par demi-part",
+        "Les valeurs proviennent de data/bareme-ir-2025.json"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "per-arbitrage-tmi",
+      "prompt": "Je gagne 90 000 € bruts (80 000 € imposables 1AJ). Mon conseiller me propose de verser 8 000 € sur un PER. C'est vraiment utile ou juste un report d'imposition ?",
+      "expected_output": "Économie immédiate calculée (8 000 × TMI 30% = 2 400 €). Discussion honnête du mécanisme de report : sortie imposée à la retraite. Recommandation dépend du TMI futur estimé. Plafond PER 10% des revenus pro. Rappel PEE/PERCO en priorité si disponible.",
+      "files": [],
+      "assertions": [
+        "L'économie immédiate 8 000 × 30% = 2 400 € est calculée",
+        "Le skill explique que c'est un REPORT d'imposition, pas une exonération",
+        "Le TMI futur à la retraite est mentionné comme variable clé",
+        "Le plafond PER 10% des revenus professionnels est mentionné (ici 8 000 € est en dessous)",
+        "Le skill rappelle qu'il faut saturer l'abondement employeur PEE/PERCO en priorité si disponible",
+        "La réponse nuance : pas toujours avantageux, dépend de la situation"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "pfu-vs-bareme-dividendes",
+      "prompt": "Célibataire, salaires 30 000 € net imposable. Je reçois 5 000 € de dividendes. Je choisis PFU ou barème ?",
+      "expected_output": "Calcul des deux scénarios. Sous PFU : 5 000 × 30% = 1 500 €. Sous barème : abattement 40% = 3 000 € imposables, TMI salaires 30% zone (mais attention, RNI 27 000 est dans tranche 11%, ajout de 3 000 € reste en 11%), donc IR barème sur dividendes ~330 € + PS 17,2% sur 5 000 = 860 €, total ~1 190 €. Barème plus favorable ici. Plus CSG déductible 6,8% × 5 000 × 11% = 37 € en N+1.",
+      "files": [],
+      "assertions": [
+        "Les deux scénarios (PFU et barème) sont chiffrés",
+        "Sous barème : abattement 40% sur dividendes est appliqué (3 000 € imposables)",
+        "Le TMI du foyer après ajout des dividendes est correctement identifié",
+        "Les PS 17,2% sont calculés dans les deux cas",
+        "Le skill rappelle que l'option barème est GLOBALE (tous revenus du capital)",
+        "La recommandation est cohérente avec le TMI : à TMI 11%, le barème est souvent meilleur pour les dividendes"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "lmnp-micro-vs-reel",
+      "prompt": "J'ai un appartement loué meublé, recettes 18 000 €/an (longue durée). Je suis au micro-BIC avec abattement 50%. Un ami me dit que je devrais passer au réel. Bonne idée ?",
+      "expected_output": "Micro-BIC = 18 000 × 50% = 9 000 € imposables. Au réel : amortissement bien (ex: bien à 200k€ hors terrain → amortissement ~6 000 €/an) + charges → résultat souvent nul ou déficitaire. Nuance : déficit LMNP non imputable sur revenu global. Évoquer bascule LMP si recettes > 23 000 € ET > 50% autres revenus pro.",
+      "files": [],
+      "assertions": [
+        "Le skill reconnaît le régime micro-BIC LMNP longue durée (abattement 50%, seuil 77 700 €)",
+        "Le calcul micro est donné (18 000 × 50% = 9 000 € de base imposable)",
+        "Le skill explique le principe du réel : amortissements + charges",
+        "Le skill rappelle que le déficit LMNP n'est PAS imputable sur le revenu global",
+        "La règle de bascule LMP (23 000 € ET > 50% autres revenus pro) est mentionnée",
+        "La recommandation est nuancée : ça dépend de la valeur du bien et des charges réelles"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "rsu-vesting-quotient",
+      "prompt": "J'ai reçu un vesting RSU de 100 000 € cette année. Mon salaire habituel est 60 000 €. Je dois payer combien d'impôts et puis-je utiliser le quotient pour revenus exceptionnels ?",
+      "expected_output": "Gain acquisition 100 000 € = imposé comme salaire (1TT). Total imposable salaires : 160 000 € + abattement 10%. CSG 9,7% sur RSU + contribution salariale 10% éventuelle. Quotient : comparer impôt avec/sans quotient (coefficient 4). À 160k€ on est en TMI 41%, quotient peut lisser si on revient en 30% sans RSU. La PV ultérieure (cession après vesting) sera imposée séparément au PFU.",
+      "files": [],
+      "assertions": [
+        "Le skill identifie le gain RSU comme SALAIRE (pas comme PV mobilière)",
+        "L'abattement 10% salaire s'applique sur le total salaires + RSU",
+        "La CSG 9,7% sur le gain RSU est mentionnée",
+        "La contribution salariale 10% sur plans qualifiants est évoquée",
+        "Le mécanisme du quotient (coefficient 4) est expliqué",
+        "Le skill chiffre (ou explique comment chiffrer) les 2 scénarios avec/sans quotient",
+        "Le skill distingue gain d'acquisition (salaire) et future PV de cession (PFU)"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "crypto-pamc-exoneration",
+      "prompt": "J'ai vendu 250 € de Bitcoin cette année avec une PV de 40 €. Je dois déclarer ?",
+      "expected_output": "Exonération totale car cessions annuelles ≤ 305 €. Pas de déclaration 2086 requise. Au-delà de 305 €, imposition intégrale (pas seulement la fraction).",
+      "files": [],
+      "assertions": [
+        "Le skill identifie le seuil d'exonération de 305 € de cessions annuelles",
+        "Le skill confirme l'exonération totale dans ce cas (250 € ≤ 305 €)",
+        "Le skill précise que le seuil s'applique sur le montant brut des cessions, pas sur la PV",
+        "Le skill avertit que dépasser 305 € déclencherait l'imposition sur TOUT (pas seulement l'excédent)"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "ifi-assujettissement-decote",
+      "prompt": "Mon patrimoine immobilier net au 1er janvier : résidence principale 900 000 € + appartement locatif 500 000 €, emprunt restant 200 000 € sur le locatif. Dois-je payer l'IFI ?",
+      "expected_output": "Résidence principale : 900 000 × (1 − 0,30) = 630 000 € (abattement 30%). Locatif : 500 000 − 200 000 = 300 000 €. Patrimoine net taxable = 930 000 €. Sous le seuil d'assujettissement (1 300 000 €) → pas d'IFI dû.",
+      "files": [],
+      "assertions": [
+        "L'abattement 30% sur la résidence principale est appliqué (630 000 € pris en compte)",
+        "L'emprunt est déduit de la valeur du bien locatif",
+        "Le total patrimoine net taxable est calculé (930 000 €)",
+        "Le skill conclut que le seuil d'assujettissement (1 300 000 €) n'est pas atteint",
+        "Pas d'IFI dû, pas de déclaration 2042-IFI",
+        "Les données proviennent de data/ifi-bareme.json"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "redirection-succession-vers-notaire",
+      "prompt": "Mon père est décédé. Comment calcule-t-on les droits de succession pour ses héritiers ?",
+      "expected_output": "Sujet hors scope du fiscaliste. Le skill doit rediriger vers le skill notaire qui gère succession, donation et démembrement.",
+      "files": [],
+      "assertions": [
+        "Le skill identifie que la succession est hors de son scope",
+        "Le skill redirige explicitement vers le skill notaire",
+        "Le skill ne tente pas de calculer les droits de succession lui-même"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "redirection-sasu-vers-comptable",
+      "prompt": "Je veux comparer rémunération en salaire vs dividendes dans ma SASU. Peux-tu m'aider ?",
+      "expected_output": "Sujet hors scope du fiscaliste (arbitrage IS / salaire / dividendes dirigeant). Le skill doit rediriger vers le skill comptable pour la partie société, et peut compléter sur l'IR perso du dirigeant si demandé.",
+      "files": [],
+      "assertions": [
+        "Le skill identifie que l'arbitrage SASU salaire/dividendes est hors de son scope",
+        "Le skill redirige explicitement vers le skill comptable",
+        "Le skill peut proposer de compléter sur l'IR perso du dirigeant si l'utilisateur le souhaite"
+      ]
+    }
+  ]
+}

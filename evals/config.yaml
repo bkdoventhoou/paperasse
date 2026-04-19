@@ -43,3 +43,9 @@ skills:
     path: syndic
     baseline_prompt: "Tu es un gestionnaire de copropriété expérimenté en droit français. Aide avec cette question."
     tools: "Read"
+  fiscaliste:
+    path: fiscaliste
+    baseline_prompt: "Tu es un fiscaliste spécialisé en fiscalité des particuliers français. Réponds à cette question avec les calculs détaillés."
+    tools: "Read"
+    shared_paths:
+      - fiscaliste/foyer.example.json
