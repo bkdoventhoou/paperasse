@@ -248,6 +248,24 @@ Vous avez un métier de la paperasse que vous aimeriez voir automatisé ? Consul
 
 ---
 
+## Sponsors
+
+Paperasse est maintenu en open source grâce au soutien de ses sponsors. [Devenir sponsor](https://github.com/sponsors/romainsimon).
+
+### Sponsors
+
+<p align="center"><!-- sponsors-premium --><!-- sponsors-premium --></p>
+
+### Backers
+
+<p align="center"><!-- sponsors-backers --><!-- sponsors-backers --></p>
+
+### Supporters
+
+<p align="center"><!-- sponsors-supporters --><!-- sponsors-supporters --></p>
+
+---
+
 ## Remerciements
 
 - **L'administration française** — Pour avoir créé un système si complexe qu'il nécessite une IA pour le comprendre
