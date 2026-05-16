@@ -22,6 +22,7 @@ Noms de dossiers en français, en minuscules, avec tirets :
 - `avocat` (avocat d'affaires)
 - `drh` (DRH / ressources humaines)
 - `juriste-social` (juriste en droit social / contentieux prud'homal)
+- `gestionnaire-paie` (gestionnaire de paie / bulletins de salaire, charges sociales)
 
 ## Doctrine : skill = métier, pas outil
 
@@ -70,8 +71,5 @@ mon-skill/
 ## SKILL.md : frontmatter
 
 ```yaml
----
-name: Mon Skill
-description: Description courte du skill
-last_upda
+
 ```
