@@ -23,6 +23,7 @@ Noms de dossiers en français, en minuscules, avec tirets :
 - `drh` (DRH / ressources humaines)
 - `juriste-social` (juriste en droit social / contentieux prud'homal)
 - `gestionnaire-paie` (gestionnaire de paie / bulletins de salaire, charges sociales)
+- `agent-immobilier` (agent immobilier / transactions, mandats, diagnostics)
 
 ## Doctrine : skill = métier, pas outil
 
@@ -65,11 +66,7 @@ mon-skill/
 │   └── bareme.md
 └── evals/                # Tests automatisés (recommandé)
     ├── evals.json
-    └── files/            # Fichiers de test (company.json, FEC, etc.)
+    └── files/           
 ```
 
-## SKILL.md : frontmatter
-
-```yaml
-
-```
+> **Note perso** : je travaille principalement sur le skill `agent-immobilier` dans ce fork. Les PRs vers l'upstream seront soumises une fois les evals suffisamment couverts.
