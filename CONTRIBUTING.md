@@ -21,6 +21,7 @@ Noms de dossiers en français, en minuscules, avec tirets :
 - `notaire` (notaire)
 - `avocat` (avocat d'affaires)
 - `drh` (DRH / ressources humaines)
+- `juriste-social` (juriste en droit social / contentieux prud'homal)
 
 ## Doctrine : skill = métier, pas outil
 
@@ -72,32 +73,5 @@ mon-skill/
 ---
 name: Mon Skill
 description: Description courte du skill
-last_updated: 2026-03-25
-includes:
-  - data/**
-  - company.example.json
----
+last_upda
 ```
-
-- `name` : nom affiché
-- `description` : une ligne
-- `last_updated` : date de dernière mise à jour (les skills de plus de 6 mois affichent un avertissement)
-- `includes` : fichiers à inclure depuis la racine du repo (pour les données partagées)
-
-## Evals
-
-Chaque skill devrait avoir des evals qui vérifient les réponses de l'agent. Format : un fichier `evals.json` avec des cas de test (question + critères de validation). Voir `comptable/evals/` pour un exemple complet.
-
-Boucle de validation recommandée :
-
-```bash
-# Planifier uniquement les skills impactés par la branche
-uv run --project evals python evals/run_evals.py --changed-only --plan-only
-
-# Exécuter les evals concernées en réutilisant le cache
-uv run --project evals python evals/run_evals.py --changed-only --reuse-cache
-```
-
-## Licence
-
-En contribuant, vous acceptez que votre contribution soit publiée sous licence MIT.
