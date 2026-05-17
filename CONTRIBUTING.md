@@ -24,6 +24,7 @@ Noms de dossiers en français, en minuscules, avec tirets :
 - `juriste-social` (juriste en droit social / contentieux prud'homal)
 - `gestionnaire-paie` (gestionnaire de paie / bulletins de salaire, charges sociales)
 - `agent-immobilier` (agent immobilier / transactions, mandats, diagnostics)
+- `auto-entrepreneur` (auto-entrepreneur / micro-entreprise, déclarations URSSAF, CFE)
 
 ## Doctrine : skill = métier, pas outil
 
@@ -64,9 +65,5 @@ mon-skill/
 ├── references/           # Textes de loi, barèmes, données de référence
 │   ├── texte-de-loi.md
 │   └── bareme.md
-└── evals/                # Tests automatisés (recommandé)
-    ├── evals.json
-    └── files/           
+└── evals/                
 ```
-
-> **Note perso** : je travaille principalement sur le skill `agent-immobilier` dans ce fork. Les PRs vers l'upstream seront soumises une fois les evals suffisamment couverts.
